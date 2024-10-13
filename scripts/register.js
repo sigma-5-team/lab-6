@@ -1,5 +1,3 @@
-let user_id = 0;
-
 // Register button and form elements
 let register_button = document.getElementById("register");
 let form = document.getElementById("form");
@@ -9,19 +7,19 @@ register_button.addEventListener("click", function (event) {
     event.preventDefault();
 
     // Get form input values
+    let user_id = 0;
     let user_email = document.getElementById("email").value;
     let user_password = document.getElementById("password").value;
     let user_name = document.getElementById("name").value;
     let user_surname = document.getElementById("surname").value;
     let user_maturity = document.getElementById("maturity").value;
     let user_photo = document.getElementById("photo").files[0];
-    let user_bday = document.getElementById("bday").value;
+    let user_birthday = document.getElementById("birthday").value;
 
     let user_group_select = document.getElementById("group");
     let user_group = user_group_select[user_group_select.selectedIndex].value;
 
     let user_gender = document.querySelector('input[type="radio"]:checked').value
-
     let user_phone = document.getElementById("phone").value;
 
     // Increment the user_id
@@ -36,7 +34,7 @@ register_button.addEventListener("click", function (event) {
         surname: user_surname,
         maturity: user_maturity,
         photo: user_photo,
-        birthday: user_bday,
+        birthday: user_birthday,
         group: user_group,
         gender: user_gender,
         phone: user_phone
@@ -52,7 +50,7 @@ register_button.addEventListener("click", function (event) {
 
         if (key === "photo" && user_info[key]) {
             // Display photo as an image
-            td.appendChild(createImageElement(user_info[key], 40, 40));
+            td.appendChild(readImage(user_info[key], 40, 40));
         } else {
             // Append other details as text
             td.innerText = user_info[key];
@@ -66,7 +64,7 @@ register_button.addEventListener("click", function (event) {
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.name = "line";
-    checkbox.id = user_id;
+    checkbox.id = user_id.toString();
 
     td.appendChild(checkbox);
     tr.appendChild(td);
@@ -77,18 +75,19 @@ register_button.addEventListener("click", function (event) {
     // Reset the form after submission
     form.reset();
 
+    // Scroll to bottom after pressing the button
     document.documentElement.scrollTop = document.documentElement.clientHeight;
 });
 
 // Function to create an image element
-function createImageElement(file, width, height) {
+function readImage(file, width, height) {
     let img = document.createElement("img");
     const reader = new FileReader();
     img.height = height;
     img.width = width;
 
     reader.addEventListener("load", () => {
-        img.src = reader.result;  // Convert image file to base64 string
+        img.src = reader.result.toString();
     });
 
     if (file) {
@@ -104,7 +103,7 @@ delete_button.addEventListener("click", function () {
     let checked_lines = document.querySelectorAll('input[name="line"]:checked');
 
     checked_lines.forEach(function (checkbox) {
-        let row = checkbox.closest('tr');
+        let row = checkbox.closest("tr");
         if (row) {
             row.remove();
         }
@@ -119,7 +118,7 @@ copy_button.addEventListener("click", function () {
     checked_lines.forEach(function (checkbox) {
         checkbox.checked = false;
 
-        let row = checkbox.closest('tr');
+        let row = checkbox.closest("tr");
         if (row) {
             let clone = row.cloneNode(true);
             row.after(clone);
