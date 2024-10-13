@@ -76,6 +76,8 @@ register_button.addEventListener("click", function (event) {
 
     // Reset the form after submission
     form.reset();
+
+    document.documentElement.scrollTop = document.documentElement.clientHeight;
 });
 
 // Function to create an image element
