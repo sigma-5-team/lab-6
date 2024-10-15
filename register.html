@@ -16,6 +16,9 @@
 </head>
 <body>
     <div class="container my-5">
+        <p>
+            <span id="star">*</span> — обов'язкове поле
+        </p>
         <form id="form" class="row g-3">
             <div class="col-md-6">
                 <label for="email" class="form-label">Е-mail</label>
@@ -56,7 +59,7 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label">Стать</label>
-                <div class="row g-1">
+                <div class="row g-3">
                     <div class="col-md-6">
                         <input type="radio" class="btn-check" name="options-outlined" id="man-outlined" autocomplete="off" value="Ч">
                         <label class="btn btn-outline-primary w-100" for="man-outlined">
@@ -66,7 +69,7 @@
                     </div>
                     <div class="col-md-6">
                         <input type="radio" class="btn-check" name="options-outlined" id="woman-outlined" autocomplete="off" value="Ж">
-                        <label class="btn btn-outline-danger w-100" for="woman-outlined">
+                        <label class="btn btn-outline-pink btn-pink w-100" for="woman-outlined">
                             Жінка
                             <i class="fa-solid fa-venus"></i>
                         </label>
@@ -97,7 +100,9 @@
                         <th scope="col">Група</th>
                         <th scope="col">Стать</th>
                         <th scope="col">Телефон</th>
-                        <th scope="col"></th>
+                        <th scope="col">
+                            <input type="checkbox" checked disabled>
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
@@ -107,7 +112,7 @@
         </div>
 
 
-        <footer class="d-grid gap-2 d-flex justify-content-center">
+        <footer class="d-grid gap-3 d-flex justify-content-center">
             <button type="button" id="copy" class="btn btn-outline-primary">
                 <i class="fa-regular fa-copy"></i>
                 Copy

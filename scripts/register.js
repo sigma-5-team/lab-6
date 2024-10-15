@@ -6,8 +6,11 @@ let form = document.getElementById("form");
 register_button.addEventListener("click", function (event) {
     event.preventDefault();
 
+    // Create table body
+    let table_body = document.getElementById("tbody");
+
     // Get form input values
-    let user_id = 0;
+    let user_id = table_body.querySelectorAll("tr").length + 1;
     let user_email = document.getElementById("email").value;
     let user_password = document.getElementById("password").value;
     let user_name = document.getElementById("name").value;
@@ -21,9 +24,6 @@ register_button.addEventListener("click", function (event) {
 
     let user_gender = document.querySelector('input[type="radio"]:checked').value
     let user_phone = document.getElementById("phone").value;
-
-    // Increment the user_id
-    user_id++;
 
     // Update user_info array with the latest values
     let user_info = {
@@ -41,7 +41,6 @@ register_button.addEventListener("click", function (event) {
     };
 
     // Create a new row and populate it with user info
-    let table_body = document.getElementById("tbody");
     let tr = document.createElement("tr");
 
     // Add each user detail as a table cell
@@ -125,3 +124,4 @@ copy_button.addEventListener("click", function () {
         }
     });
 });
+
