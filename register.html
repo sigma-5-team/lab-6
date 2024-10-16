@@ -19,27 +19,38 @@
         <p>
             <span id="star">*</span> — обов'язкове поле
         </p>
-        <form id="form" class="row g-3">
+        <form id="form" class="row g-3" method="post">
+            <!--   Email   -->
             <div class="col-md-6">
                 <label for="email" class="form-label">Е-mail</label>
                 <input placeholder="user@example.com" type="email" class="form-control" id="email" required>
             </div>
+
+            <!--   Password   -->
             <div class="col-md-6">
                 <label for="password" class="form-label">Пароль</label>
                 <input type="password" class="form-control" id="password" required>
             </div>
+
+            <!--   Surname   -->
             <div class="col-md-4">
                 <label for="surname" class="form-label">Прізвище</label>
                 <input placeholder="Богданов" type="text" class="form-control" id="surname" required>
             </div>
+
+            <!--   Name   -->
             <div class="col-md-4">
                 <label for="name" class="form-label">Ім'я</label>
                 <input placeholder="Богдан" type="text" class="form-control" id="name" required>
             </div>
+
+            <!--   Maturity   -->
             <div class="col-md-4">
                 <label for="maturity" class="form-label">По батькові</label>
                 <input placeholder="Богданович" type="text" class="form-control" id="maturity">
             </div>
+
+            <!--   Photo   -->
             <div class="col-md-12">
                 <label for="photo" class="form-label">Фото профілю</label>
                 <input accept="image/png, image/jpeg, image/jpg" type="file" class="form-control" id="photo" required>
@@ -48,6 +59,8 @@
                 <label for="birthday" class="form-label">Дата народження</label>
                 <input type="date" class="form-control" id="birthday" required>
             </div>
+
+            <!--   Group   -->
             <div class="col-md-6">
                 <label for="group" class="form-label">Група</label>
                 <select class="form-select" id="group" required>
@@ -57,6 +70,8 @@
                     <option>IA-34</option>
                 </select>
             </div>
+
+            <!--   Gender   -->
             <div class="col-md-6">
                 <label class="form-label">Стать</label>
                 <div class="row g-3">
@@ -76,12 +91,16 @@
                     </div>
                 </div>
             </div>
+
+            <!--   Phone   -->
             <div class="col-md-6">
                 <label for="phone" class="form-label">Телефон</label>
                 <input type="text" class="form-control" id="phone" required>
             </div>
+
+            <!--   Submit   -->
             <div class="col-12 d-flex justify-content-center align-items-center">
-                <button id="register" type="submit" class="btn btn-primary">Зареєструватися</button>
+                <input id="register" type="submit" class="btn btn-primary" value="Зареєструватися">
             </div>
         </form>
 
@@ -109,19 +128,17 @@
                     <!-- Dynamic content will be inserted here -->
                 </tbody>
             </table>
+            <div class="d-grid gap-3 d-flex justify-content-center">
+                <button type="button" id="copy" class="btn btn-outline-primary">
+                    <i class="fa-regular fa-copy"></i>
+                    Copy
+                </button>
+                <button type="button" id="delete" class="btn btn-outline-danger">
+                    <i class="fa-solid fa-trash"></i>
+                    Delete
+                </button>
+            </div>
         </div>
-
-
-        <footer class="d-grid gap-3 d-flex justify-content-center">
-            <button type="button" id="copy" class="btn btn-outline-primary">
-                <i class="fa-regular fa-copy"></i>
-                Copy
-            </button>
-            <button type="button" id="delete" class="btn btn-outline-danger">
-                <i class="fa-solid fa-trash"></i>
-                Delete
-            </button>
-        </footer>
     </div>
 
     <script src="scripts/register.js"></script>
