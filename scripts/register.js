@@ -1,3 +1,9 @@
+let user_phone_input = document.getElementById("phone");
+let user_phone_mask = IMask(
+    user_phone_input,
+    {mask: '+{38} (000) 000-00-00'}
+)
+
 // Register button and form elements
 let register_button = document.getElementById("register");
 let form = document.getElementById("form");
@@ -23,7 +29,7 @@ register_button.addEventListener("click", function (event) {
     let user_group = user_group_select[user_group_select.selectedIndex].value;
 
     let user_gender = document.querySelector('input[type="radio"]:checked').value
-    let user_phone = document.getElementById("phone").value;
+    let user_phone = user_phone_mask.value;
 
     // Update user_info array with the latest values
     let user_info = {
