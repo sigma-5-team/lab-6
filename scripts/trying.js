@@ -118,12 +118,6 @@ function validateForm(email, password, name, surname, birthday, phone) {
         return false;
     }
 
-    // Перевірка номера телефону (повинно бути 10 цифр)
-    if (!phonePattern.test(phone)) {
-        alert('Введіть коректний номер телефону (10 цифр)!');
-        return false;
-    }
-
     return true; // Якщо всі перевірки пройшли, повертаємо true
 }
 
