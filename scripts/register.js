@@ -9,7 +9,7 @@ let nameInput = document.getElementById("name");
 let surnameInput = document.getElementById("surname");
 let birthdayInput = document.getElementById("birthday");
 let phoneInput = document.getElementById("phone");
-let genderInput = document.querySelector('input[name="options-outlined"]');
+let genderInput = document.querySelectorAll('input[name="options-outlined"]');
 let photoInput = document.getElementById("photo");
 
 IMask(
@@ -20,19 +20,42 @@ IMask(
 // Validation rules
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Validation function on input
+emailInput.addEventListener("input", () => validateInput(emailInput, emailPattern, "Введіть коректний E-mail!"));
+passwordInput.addEventListener("input", () => validateInput(passwordInput, /.{6,}/, "Пароль повинен містити не менше 6 символів!"));
+nameInput.addEventListener("input", () => validateInput(nameInput, /.+/, "Ім'я є обов'язковим полем!"));
+surnameInput.addEventListener("input", () => validateInput(surnameInput, /.+/, "Прізвище є обов'язковим полем!"));
+birthdayInput.addEventListener("input", () => validateInput(birthdayInput, /.+/, "Дата народження є обов'язковим полем!"));
+phoneInput.addEventListener("input", () => validateInput(phoneInput, /.{19}/, "Введіть коректний номер телефону!"));
+photoInput.addEventListener("input", validatePhoto);
+
 // Validation function on blur
-emailInput.addEventListener('blur', () => validateInput(emailInput, emailPattern, "Введіть коректний E-mail!"));
-passwordInput.addEventListener('blur', () => validateInput(passwordInput, /.{6,}/, "Пароль повинен містити не менше 6 символів!"));
-nameInput.addEventListener('blur', () => validateInput(nameInput, /.+/, "Ім'я є обов'язковим полем!"));
-surnameInput.addEventListener('blur', () => validateInput(surnameInput, /.+/, "Прізвище є обов'язковим полем!"));
-birthdayInput.addEventListener('blur', () => validateInput(birthdayInput, /.+/, "Дата народження є обов'язковим полем!"));
-phoneInput.addEventListener('blur', () => validateInput(phoneInput, /.{19}/, "Введіть коректний номер телефону!"));
-photoInput.addEventListener('blur', validatePhoto);
-genderInput.addEventListener('blur', validateGender);
+emailInput.addEventListener("blur", () => validateInput(emailInput, emailPattern, "Введіть коректний E-mail!"));
+passwordInput.addEventListener("blur", () => validateInput(passwordInput, /.{6,}/, "Пароль повинен містити не менше 6 символів!"));
+nameInput.addEventListener("blur", () => validateInput(nameInput, /.+/, "Ім'я є обов'язковим полем!"));
+surnameInput.addEventListener("blur", () => validateInput(surnameInput, /.+/, "Прізвище є обов'язковим полем!"));
+birthdayInput.addEventListener("blur", () => validateInput(birthdayInput, /.+/, "Дата народження є обов'язковим полем!"));
+phoneInput.addEventListener("blur", () => validateInput(phoneInput, /.{19}/, "Введіть коректний номер телефону!"));
+photoInput.addEventListener("blur", validatePhoto);
+
+birthdayInput.max = new Date().toISOString().split("T")[0];
+birthdayInput.addEventListener('input', function() {
+    const inputDate = this.value;
+    const maxDate = this.getAttribute('max');
+
+    if (inputDate > maxDate) {
+        this.value = maxDate; // Reset to max date if input exceeds it
+    }
+});
+
+genderInput.forEach(radio => {
+    radio.addEventListener("click", () => clearErrorMessage(radio));
+});
 
 // Register button event listener
 register_button.addEventListener("click", function (event) {
     event.preventDefault();
+
     clearErrorMessages();
 
 
@@ -46,7 +69,7 @@ register_button.addEventListener("click", function (event) {
     let user_photo = photoInput.files[0]; // Only get the first file
     let user_birthday = birthdayInput.value;
     let user_group = document.getElementById("group").value;
-    let user_gender = document.querySelector('input[name="options-outlined"]:checked') ? document.querySelector('input[name="options-outlined"]:checked').value : '';
+    let user_gender = document.querySelector('input[name="options-outlined"]:checked');
     let user_phone = phoneInput.value;
 
     // Validate all fields and show error messages
@@ -59,13 +82,6 @@ register_button.addEventListener("click", function (event) {
     validatePhoto();
     validateGender();
 
-    // Validate all fields
-    let isValid = validateForm(user_email, user_password, user_name, user_surname, user_birthday, user_phone, user_gender);
-
-    if (!isValid) {
-        return; // Do not proceed if form is invalid
-    }
-
     // Create user info object
     let user_info = {
         id: user_id,
@@ -77,7 +93,7 @@ register_button.addEventListener("click", function (event) {
         photo: user_photo,
         birthday: user_birthday,
         group: user_group,
-        gender: user_gender,
+        gender: user_gender.value,
         phone: user_phone
     };
 
@@ -112,9 +128,6 @@ register_button.addEventListener("click", function (event) {
     // Append the new row to the table body
     document.getElementById("tbody").appendChild(tr);
 
-    // Add the new row to the table
-    document.getElementById("tbody").appendChild(tr);
-
     // Reset form after submission
     form.reset();
 });
@@ -138,35 +151,19 @@ function validatePhoto() {
     }
 }
 
-// Function to validate gender selection
+// Function to validate gender
 function validateGender() {
     let selectedGender = document.querySelector('input[name="options-outlined"]:checked');
+
     if (!selectedGender) {
-        showErrorMessage(genderInput, "Стать є обов'язковою!");
+        // Gender is not selected
+        showErrorMessage(document.getElementById("break"), "Стать є обов'язковою!");
     } else {
         clearErrorMessage(genderInput);
     }
 }
 
-// Function to validate the entire form
-function validateForm(email, password, name, surname, birthday, phone, gender) {
-    let isValid = true;
-    if (!emailPattern.test(email)) isValid = false;
-    if (password.length < 6) isValid = false;
-    if (name.trim() === '') isValid = false;
-    if (surname.trim() === '') isValid = false;
-    if (birthday.trim() === '') isValid = false;
-    if (phone.length !== 19) isValid = false;
-    if (!gender) isValid = false;
 
-    // Validate photo
-    if (photoInput.files.length === 0) {
-        isValid = false;
-        validatePhoto();
-    }
-
-    return isValid;
-}
 
 // Function to create an image element
 function readImage(file, width, height) {
@@ -180,7 +177,7 @@ function readImage(file, width, height) {
     });
 
     // Check if file is valid before calling readAsDataURL
-    if (file instanceof Blob) {
+    if (file) {
         reader.readAsDataURL(file);
     } else {
         console.error("Invalid file passed to readImage function.");
@@ -194,13 +191,33 @@ function showErrorMessage(input, message) {
     clearErrorMessage(input); // Clear previous error message if any
     let errorElement = document.createElement("div");
     errorElement.classList.add("error-message");
+    errorElement.classList.add("text-danger")
     errorElement.innerText = message;
-    input.insertAdjacentElement("afterend", errorElement);
+
+    if (input.type === 'radio') {
+        // Find the last radio button in the group
+        let lastRadio = document.getElementById("break");
+
+        // Insert error message after the last radio button
+        lastRadio.parentElement.insertAdjacentElement("afterend", errorElement);
+    } else {
+        input.insertAdjacentElement("afterend", errorElement);
+    }
 }
 
 // Clear the error message from the input field
 function clearErrorMessage(input) {
-    let errorElement = input.nextElementSibling;
+    let errorElement;
+
+    if (input.type === 'radio') {
+        // For radio buttons, locate the error message next to the "break" element or the container of the radios
+        errorElement = document.getElementById("break").nextElementSibling;
+    } else {
+        // For other inputs, find the error message next to the input
+        errorElement = input.nextElementSibling;
+    }
+
+    // If error message exists and has the correct class, remove it
     if (errorElement && errorElement.classList.contains("error-message")) {
         errorElement.remove();
     }
@@ -210,42 +227,3 @@ function clearErrorMessage(input) {
 function clearErrorMessages() {
     document.querySelectorAll(".error-message").forEach(error => error.remove());
 }
-
-// Event listener for the delete button
-let delete_button = document.getElementById("delete");
-delete_button.addEventListener("click", function () {
-    let checked_lines = document.querySelectorAll('input[name="line"]:checked');
-
-    if (checked_lines.length === 0) {
-        alert("No lines chosen!");
-    } else {
-        checked_lines.forEach(function (checkbox) {
-            let row = checkbox.closest("tr");
-            if (row) {
-                row.remove();
-            } else {
-                alert("No chosen lines");
-            }
-        });
-    }
-});
-
-// Event listener for the copy button
-let copy_button = document.getElementById("copy");
-copy_button.addEventListener("click", function () {
-    let checked_lines = document.querySelectorAll('input[name="line"]:checked');
-
-    if (checked_lines.length === 0) {
-        alert("No lines chosen!");
-    } else {
-        checked_lines.forEach(function (checkbox) {
-            checkbox.checked = false;
-
-            let row = checkbox.closest("tr");
-            if (row) {
-                let clone = row.cloneNode(true);
-                row.after(clone);
-            }
-        });
-    }
-});
